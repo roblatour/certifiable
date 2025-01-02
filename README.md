@@ -32,7 +32,7 @@ C++ certificate code for github.com:443 copied to the clipboard
 and here is what was copied to the clipboard
 ```cpp
 // The following certificate is for use with github.com:443
-// It is valid between 2024-03-06 7:00:00 PM (UTC) and 2024-03-06 7:00:00 PM (UTC) inclusive.
+// It is valid between 2024-03-06 7:00:00 PM (UTC) and 2025-03-07 6:59:59 PM (UTC) inclusive.
 const char* GITHUB_COM_CERTIFICATE = "-----BEGIN CERTIFICATE-----\n" \
                                      "MIIEozCCBEmgAwIBAgIQTij3hrZsGjuULNLEDrdCpTAKBggqhkjOPQQDAjCBjzEL\n" \
                                      "MAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UE\n" \
