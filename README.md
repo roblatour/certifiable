@@ -1,8 +1,8 @@
 # Certifiable (v1.0 January 2, 2025)
 
-Certifiable is a free open source command line program for Windows to generate code to assign a SSL Certificate PEM to a variable.
+Certifiable is a free open source command line program for Windows which generates code to assign a SSL Certificate PEM to a variable
 
-The following langages are supported for code generation: C++, Python, VB.net
+The following languages are supported for code generation: C++, Python, VB.net
 
 ## Download 
 
@@ -25,7 +25,7 @@ From the command:
 ```cpp
 certifiable github.com -c
 ```
-the following resposne is returned 
+the following response is returned 
 ```cpp
 C++ certificate code for github.com:443 copied to the clipboard
 ```
