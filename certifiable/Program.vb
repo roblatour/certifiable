@@ -171,7 +171,7 @@ Module Program
             indent = firstLine.Length
 
             outputString = startCommentString & "The following certificate is for use with " & iHost.ToLower & ":" & iPort & vbCrLf
-            outputString &= startCommentString & "It is valid between " & cert.NotBefore.ToString & " (UTC) and " & cert.NotBefore.ToString & " (UTC) inclusive." & vbCrLf
+            outputString &= startCommentString & "It is valid between " & cert.NotBefore.ToString & " (UTC) and " & cert.NotAfter.ToString & " (UTC) inclusive." & vbCrLf
 
             outputString &= firstLine
 
@@ -241,7 +241,7 @@ Module Program
             indent = 0
 
             outputString = startCommentString & "The following certificate is for use with " & iHost.ToLower & ":" & iPort & vbCrLf
-            outputString &= startCommentString & "It is valid between " & cert.NotBefore.ToString & " (UTC) and " & cert.NotBefore.ToString & " (UTC) inclusive." & vbCrLf
+            outputString &= startCommentString & "It is valid between " & cert.NotBefore.ToString & " (UTC) and " & cert.NotAfter.ToString & " (UTC) inclusive." & vbCrLf
 
             outputString &= firstLine
 
@@ -310,7 +310,7 @@ Module Program
             indent = firstLine.Length
 
             outputString = startCommentString & "The following certificate is for use with " & iHost.ToLower & ":" & iPort & vbCrLf
-            outputString &= startCommentString & "It is valid between " & cert.NotBefore.ToString & " (UTC) and " & cert.NotBefore.ToString & " (UTC) inclusive." & vbCrLf
+            outputString &= startCommentString & "It is valid between " & cert.NotBefore.ToString & " (UTC) and " & cert.NotAfter.ToString & " (UTC) inclusive." & vbCrLf
 
             outputString &= firstLine
 
