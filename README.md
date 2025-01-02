@@ -17,93 +17,20 @@ Certifiable is licensed under a [MIT license](https://github.com/roblatour/certi
 
 Certifiable does not need to be installed, rather download file (above) and run it.
 
-## Using Certifiable
-
-From the command prompt just type "certifiable ?" (without the quotes) to see the help (as detailed below).
-
-Certifiable v1.0 Help
-
-Given a host name or IP address, and some additional information as outlined below,
-Certifiable will generate the code for assigning a variable a SSL certificate PEM
-
-Usage:
-certifiable [ host (-p n) (-d) (-n n) (-g x) (-v x) (-c) (-w) (-o) (-f) ] | [ ] | [ ? ]
-
-host   the host name or IP address from which to get the certificate(s)
-       for example: google.com, www.google.com, 142.251.41.14
-       a host value is required in all cases other than displaying this help information
-
-Options:
-
- -p n  the host's port number
-       for example: -p 8096
-       if not used a port number of 443 will be assumed
-
- -d    display the host's available certificates
-       if neither -c or -o options are used, the -d option will be assumed
-
- -n n  in many cases more than one certificate may be available for a host
-       when the -d option is used each certificate will be displayed with a unique certification number
-       if not otherwise specified the first certificate will be used in code generation
-       to specify a certificate other than the first certificate
-       use -n n where the second n is the unique certificate number displayed with the -d option
-       for example, -n 3
-
- -g x  used to specifying the language in which the code will be generated
-       supported languages are: c++, python, and vb.net
-       for example: -g vb.net
-       if not used, the c++ will be assumed
-
- -v x  the variable name to be used in the output file
-       for example: -v server_root_cert
-       if not used, a variable name based on the host name / IP address will be generated
-
- -c    the generated code will be copied to the clipboard
-
- -w x  the generated code will be written to the specified (path and) file name
-       for example, -w c:\temp\certificate.h
-       the output path name is optional, if omitted the output file will be written to the current working directory
-       for example, -w certificate.h
-       if the path is specified but does not exist, it will be created
-
- -o    if the -w option is used and the specified file already exists
-       the user will be prompted to overwrite the file unless the -o options is used
-       in which case the existing file will be automatically overwritten
-       for example, -w c:\temp\certificate.h -o
-
- -f    by default future dated certificates are ignored
-       if -f is used, then future dated certificates won't be ignored
-       note: expired certificates are always ignored
-
- Certifiable used with no arguments, or with '?' displays this help
-
-Final notes on usage:
- the -d option does not generate code, rather simply displays available information
- code will only be generated if the -c or -o options are used
-
-Some common examples:
- certifiable ?
- certifiable www.google.com
- certifiable 142.251.41.14 -d
- certifiable github.com -d
- certifiable github.com -n 2 -c
- certifiable github.com -n 2 -g python -c
- certifiable github.com -w certificate.h
- certifiable github.com -w certificate.h -o
-
-Certifiable v1.0
-Copyright © 2025, Rob Latour
 
 ## Example output
 
 From the command:
 
+```cpp
 certifiable github.com -c
-
-<span style="color: green;">C++ certificate code for github.com:443 copied to the clipboard</span>
-
-(and here is what was copied to the clipboard)
-
+```
+the following resposne is returned 
+```cpp
+C++ certificate code for github.com:443 copied to the clipboard
+```
+and here is what was copied to the clipboard
+```cpp
 // The following certificate is for use with github.com:443
 // It is valid between 2024-03-06 7:00:00 PM (UTC) and 2024-03-06 7:00:00 PM (UTC) inclusive.
 const char* GITHUB_COM_CERTIFICATE = "-----BEGIN CERTIFICATE-----\n" \
@@ -133,6 +60,86 @@ const char* GITHUB_COM_CERTIFICATE = "-----BEGIN CERTIFICATE-----\n" \
                                      "bTAKBggqhkjOPQQDAgNIADBFAiEAru2McPr0eNwcWNuDEY0a/rGzXRfRrm+6XfZe\n" \
                                      "SzhYZewCIBq4TUEBCgapv7xvAtRKdVdi/b4m36Uyej1ggyJsiesA\n" \
                                      "-----END CERTIFICATE-----";
+```
+
+
+## Using Certifiable
+
+From the command prompt just type "certifiable ?" (without the quotes) to see the help as mostly reproduced below:.
+
+Certifiable v1.0 Help<br>
+<br>
+Given a host name or IP address, and some additional information as outlined below,<br>
+Certifiable will generate the code for assigning a variable a SSL certificate PEM
+<br><br>
+Usage:<br>
+certifiable [ host (-p n) (-d) (-n n) (-g x) (-v x) (-c) (-w) (-o) (-f) ] | [ ] | [ ? ]<br>
+<br>
+
+*how do i insert a tab between where it says 'host' and the 'the host name' below*
+
+host&nbsp; &nbsp; &nbsp; &nbsp;the host name or IP address from which to get the certificate(s)<br>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;for example: google.com, www.google.com, 142.251.41.14<br>
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;a host value is required in all cases other than displaying this help information<br>
+<br>
+Options:<br>
+<br>
+ -p n&nbsp; &nbsp; &nbsp; &nbsp;the host's port number<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;for example: -p 8096<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;if not used a port number of 443 will be assumed<br>
+<br>
+ -d &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; display the host's available certificates<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; if neither -c or -o options are used, the -d option will be assumed<br>
+
+ -n n&nbsp; &nbsp; &nbsp; &nbsp;in many cases more than one certificate may be available for a host<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;when the -d option is used each certificate will be displayed with a unique certification number<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;if not otherwise specified the first certificate will be used in code generation<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;to specify a certificate other than the first certificate<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;use -n n where the second n is the unique certificate number displayed with the -d option<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;for example, -n 3<br>
+<br>
+ -g x&nbsp; &nbsp; &nbsp; &nbsp; used to specifying the language in which the code will be generated<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;supported languages are: c++, python, and vb.net<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;for example: -g vb.net<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;if not used, the c++ will be assumed<br>
+<br>
+ -v x&nbsp; &nbsp; &nbsp; &nbsp; the variable name to be used in the output file<br>
+ &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;for example: -v server_root_cert<br>
+ &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;if not used, a variable name based on the host name / IP address will be generated<br>
+<br>
+ -c&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;   the generated code will be copied to the clipboard<br>
+<br>
+ -w x &nbsp; &nbsp; &nbsp; &nbsp;the generated code will be written to the specified (path and) file name<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;for example, -w c:\temp\certificate.h<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; the output path name is optional, if omitted the output file will be written to the current working directory<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; for example, -w certificate.h<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; if the path is specified but does not exist, it will be created<br>
+<br>
+ -o&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if the -w option is used and the specified file already exists<br>
+ &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; the user will be prompted to overwrite the file unless the -o options is used<br>
+ &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;in which case the existing file will be automatically overwritten<br>
+ &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; for example, -w c:\temp\certificate.h -o<br>
+<br>
+ -f&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; by default future dated certificates are ignored<br>
+ &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; if -f is used, then future dated certificates won't be ignored<br>
+ &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; note: expired certificates are always ignored<br>
+<br>
+ Certifiable used with no arguments, or with '?' displays this help<br>
+<br>
+Final notes on usage:<br>
+ the -d option does not generate code, rather simply displays available information<br>
+ code will only be generated if the -c or -o options are used<br>
+<br>
+Some common examples:<br>
+ certifiable ?<br>
+ certifiable www.google.com<br>
+ certifiable 142.251.41.14 -d<br>
+ certifiable github.com -d<br>
+ certifiable github.com -n 2 -c<br>
+ certifiable github.com -n 2 -g python -c<br>
+ certifiable github.com -w certificate.h<br>
+ certifiable github.com -w certificate.h -o<br>
+
 
 ## Components
 
