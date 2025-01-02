@@ -8,7 +8,7 @@ The following languages are supported for code generation: C++, Python, VB.net
 
 You are welcome to download and use Certifiable on as many computers as you would like.
 
-A downloadable signed executable portable copy of the program for Windows (x64) is available from [here](https://github.com/roblatour/setvol/releases/download/v1..0.0/certifiable.exe).
+A downloadable signed executable portable copy of the program for Windows (x64) is available from [here](https://github.com/roblatour/certifiable/releases/download/v1.0.0.0/certifiable.exe).
 
 ## License
 Certifiable is licensed under a [MIT license](https://github.com/roblatour/certifiable/blob/main/LICENSE)
