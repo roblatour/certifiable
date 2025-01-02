@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "certifiable": {
+      "commandName": "Project",
+      "commandLineArgs": "google.com -d"
+    }
+  }
+}
