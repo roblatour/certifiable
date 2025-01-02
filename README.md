@@ -1,4 +1,4 @@
-# Certifiable (v1.0January 2, 2025)
+# Certifiable (v1.0 January 2, 2025)
 
 Certifiable is a free open source command line program for Windows to generate code to assign a SSL Certificate PEM to a variable.
 
