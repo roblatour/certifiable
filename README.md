@@ -1,4 +1,4 @@
-# Certifiable (v1.0 January 2, 2025)
+# Certifiable (v1.1 January 3, 2025)
 
 Certifiable is a free open source command line program for Windows which generates code to assign a SSL Certificate PEM to a variable
 
@@ -8,7 +8,7 @@ The following languages are supported for code generation: C++, Python, VB.net
 
 You are welcome to download and use Certifiable on as many computers as you would like.
 
-A downloadable signed executable portable copy of the program for Windows (x64) is available from [here](https://github.com/roblatour/certifiable/releases/download/v1.0.0.0/certifiable.exe).
+A downloadable signed executable portable copy of the program for Windows (x64) is available from [here](https://github.com/roblatour/certifiable/releases/download/v1.1.0.0/certifiable.exe).
 
 ## License
 Certifiable is licensed under a [MIT license](https://github.com/roblatour/certifiable/blob/main/LICENSE)

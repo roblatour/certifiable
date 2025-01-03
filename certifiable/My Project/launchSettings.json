@@ -1,8 +1,12 @@
 {
   "profiles": {
-    "certifiable": {
+    "simple test of google": {
       "commandName": "Project",
-      "commandLineArgs": "google.com -d"
+      "commandLineArgs": "google.com"
+    },
+    "test with a port": {
+      "commandName": "Project",
+      "commandLineArgs": "mail.smtp2go.com -p 2525"
     }
   }
 }

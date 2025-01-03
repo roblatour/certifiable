@@ -10,6 +10,7 @@ Imports System.Net.Security
 Imports System.Net.Sockets
 Imports System.Security.Cryptography.X509Certificates
 Imports System.Text
+Imports System.Threading
 Imports TextCopy
 
 Module Program
@@ -32,9 +33,9 @@ Module Program
     Dim gCurrentCertificates As Integer = 0
     Dim gFutureCertificates As Integer = 0
 
-    Private gStartingColour As ConsoleColor
+    Dim gCurrentTimeUtc As DateTime
 
-    Dim currentTimeUtc As DateTime = DateTime.UtcNow
+    Dim gStartingColour As ConsoleColor
 
     Dim AllCertifcates As New List(Of X509Certificate2)()
 
@@ -47,11 +48,27 @@ Module Program
 
     Function GetAllCertifations() As Boolean
 
-        Try
-            Using client As New TcpClient(iHost, iPort)
-                Using sslStream As New SslStream(client.GetStream(), False, AddressOf ServerCertificateValidationCallback)
+        gCurrentTimeUtc = DateTime.UtcNow
+        Dim timeout As Integer = 5000 ' Timeout in milliseconds
 
-                    sslStream.AuthenticateAsClient(iHost)
+        Try
+
+            Using client As New TcpClient()
+
+                Dim connectTask As Task = client.ConnectAsync(iHost, iPort)
+                If Not connectTask.Wait(timeout) Then
+                    Throw New TimeoutException("The connection attempt timed out.")
+                End If
+
+                client.ReceiveTimeout = timeout
+                client.SendTimeout = timeout
+
+                Using sslStream As New SslStream(client.GetStream(), False, AddressOf ServerCertificateValidationCallback)
+                    Dim cts As New CancellationTokenSource(timeout)
+                    Dim authTask As Task = sslStream.AuthenticateAsClientAsync(iHost)
+                    If Not authTask.Wait(timeout) Then
+                        Throw New TimeoutException("The SSL authentication timed out.")
+                    End If
 
                     Dim chain As New X509Chain()
                     chain.Build(sslStream.RemoteCertificate)
@@ -59,11 +76,9 @@ Module Program
                     Dim certificateInfo As New StringBuilder()
 
                     For Each cert In chain.ChainElements
-
-                        If currentTimeUtc > cert.Certificate.NotAfter Then
+                        If gCurrentTimeUtc > cert.Certificate.NotAfter Then
                             gExpiredCertificates += 1
-
-                        ElseIf (currentTimeUtc > cert.Certificate.NotBefore) AndAlso (currentTimeUtc < cert.Certificate.NotAfter) Then
+                        ElseIf (gCurrentTimeUtc > cert.Certificate.NotBefore) AndAlso (gCurrentTimeUtc < cert.Certificate.NotAfter) Then
                             AllCertifcates.Add(cert.Certificate)
                             gCurrentCertificates += 1
                         Else
@@ -72,17 +87,26 @@ Module Program
                                 AllCertifcates.Add(cert.Certificate)
                             End If
                         End If
-
                     Next
-
                 End Using
             End Using
+        Catch ex As TimeoutException
+
+            Console_WriteLineInColour("Error: the connection attempt to " & iHost & ":" & iPort & " timed out", ConsoleColor.Red)
+
+            Return False
 
         Catch ex As Exception
 
             Console_WriteLineInColour(" ", ConsoleColor.Red)
             Console_WriteLineInColour("Error:", ConsoleColor.Red)
+
             Console_WriteLineInColour(ex.Message, ConsoleColor.Red)
+
+            If ex.Message.Contains("Cannot determine the frame size or a corrupted frame was received") Then
+                Console_WriteLineInColour("It may be you are looking for a certificate where there is none. For example with a server that only supports http and not https connections.", ConsoleColor.Red)
+            End If
+
             Return False
 
         End Try
@@ -108,7 +132,7 @@ Module Program
                     Console_WriteLineInColour("Friendly Name:       " & cert.FriendlyName)
                     Console_WriteLineInColour("Subject:             " & cert.Subject)
                     Console_WriteLineInColour("Issuer:              " & cert.Issuer)
-                    If (currentTimeUtc >= cert.NotBefore) AndAlso (currentTimeUtc <= cert.NotAfter) Then
+                    If (gCurrentTimeUtc >= cert.NotBefore) AndAlso (gCurrentTimeUtc <= cert.NotAfter) Then
                         Console_WriteLineInColour("Not Before:          " & cert.NotBefore, ConsoleColor.Green)
                         Console_WriteLineInColour("Not After:           " & cert.NotAfter, ConsoleColor.Green)
                     Else
@@ -555,10 +579,9 @@ Module Program
                 Case "-p"
                     If i + 1 < args.Length Then
                         If (Integer.TryParse(args(i + 1), iPort)) Then
+                        Else
                             Console_WriteLineInColour("the -p option, if used, must be followed an integer value from 1 to 65535 inclusive", ConsoleColor.Red)
                             Return False
-                        Else
-                            iPort = 443
                         End If
                     End If
                 Case "-g"
@@ -648,7 +671,7 @@ Module Program
         Dim StartingColour As ConsoleColor = Console.ForegroundColor
 
         Console_WriteLineInColour(" ")
-        Console_WriteLineInColour("Certifiable v1.0 Help", ConsoleColor.White)
+        Console_WriteLineInColour("Certifiable v1.1 Help", ConsoleColor.White)
         Console_WriteLineInColour(" ")
         Console_WriteLineInColour("Given a host name or IP address, and some additional information as outlined below,")
         Console_WriteLineInColour("Certifiable will generate the code for assigning a variable a SSL certificate PEM")
@@ -718,7 +741,7 @@ Module Program
         Console_WriteLineInColour(" certifiable github.com -w certificate.h")
         Console_WriteLineInColour(" certifiable github.com -w certificate.h -o")
         Console_WriteLineInColour(" ")
-        Console_WriteLineInColour("Certifiable v1.0", ConsoleColor.Yellow)
+        Console_WriteLineInColour("Certifiable v1.1", ConsoleColor.Yellow)
         Console_WriteLineInColour("Copyright © 2025, Rob Latour", ConsoleColor.Yellow, True)
         Console_WriteLineInColour(" ")
         Console_WriteLineInColour("Certifiable is open source", ConsoleColor.Cyan)
