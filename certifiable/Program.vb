@@ -33,7 +33,7 @@ Module Program
     Dim gCurrentCertificates As Integer = 0
     Dim gFutureCertificates As Integer = 0
 
-    Dim gCurrentTimeUtc As DateTime
+    Dim gCurrentTimeUTC As DateTime
 
     Dim gStartingColour As ConsoleColor
 
@@ -48,7 +48,7 @@ Module Program
 
     Function GetAllCertifations() As Boolean
 
-        gCurrentTimeUtc = DateTime.UtcNow
+        gCurrentTimeUTC = DateTime.UtcNow
         Dim timeout As Integer = 5000 ' Timeout in milliseconds
 
         Try
@@ -76,9 +76,9 @@ Module Program
                     Dim certificateInfo As New StringBuilder()
 
                     For Each cert In chain.ChainElements
-                        If gCurrentTimeUtc > cert.Certificate.NotAfter Then
+                        If gCurrentTimeUTC > cert.Certificate.NotAfter Then
                             gExpiredCertificates += 1
-                        ElseIf (gCurrentTimeUtc > cert.Certificate.NotBefore) AndAlso (gCurrentTimeUtc < cert.Certificate.NotAfter) Then
+                        ElseIf (gCurrentTimeUTC > cert.Certificate.NotBefore) AndAlso (gCurrentTimeUTC < cert.Certificate.NotAfter) Then
                             AllCertifcates.Add(cert.Certificate)
                             gCurrentCertificates += 1
                         Else
@@ -132,7 +132,7 @@ Module Program
                     Console_WriteLineInColour("Friendly Name:       " & cert.FriendlyName)
                     Console_WriteLineInColour("Subject:             " & cert.Subject)
                     Console_WriteLineInColour("Issuer:              " & cert.Issuer)
-                    If (gCurrentTimeUtc >= cert.NotBefore) AndAlso (gCurrentTimeUtc <= cert.NotAfter) Then
+                    If (gCurrentTimeUTC >= cert.NotBefore) AndAlso (gCurrentTimeUTC <= cert.NotAfter) Then
                         Console_WriteLineInColour("Not Before:          " & cert.NotBefore, ConsoleColor.Green)
                         Console_WriteLineInColour("Not After:           " & cert.NotAfter, ConsoleColor.Green)
                     Else
