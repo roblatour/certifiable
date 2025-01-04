@@ -78,7 +78,7 @@ Module Program
                     For Each cert In chain.ChainElements
                         If gCurrentTimeUTC > cert.Certificate.NotAfter Then
                             gExpiredCertificates += 1
-                        ElseIf (gCurrentTimeUTC > cert.Certificate.NotBefore) AndAlso (gCurrentTimeUTC < cert.Certificate.NotAfter) Then
+                        ElseIf (gCurrentTimeUTC >= cert.Certificate.NotBefore) AndAlso (gCurrentTimeUTC <= cert.Certificate.NotAfter) Then
                             AllCertifcates.Add(cert.Certificate)
                             gCurrentCertificates += 1
                         Else
@@ -671,7 +671,7 @@ Module Program
         Dim StartingColour As ConsoleColor = Console.ForegroundColor
 
         Console_WriteLineInColour(" ")
-        Console_WriteLineInColour("Certifiable v1.1 Help", ConsoleColor.White)
+        Console_WriteLineInColour("Certifiable v1.2 Help", ConsoleColor.White)
         Console_WriteLineInColour(" ")
         Console_WriteLineInColour("Given a host name or IP address, and some additional information as outlined below,")
         Console_WriteLineInColour("Certifiable will generate the code for assigning a variable a SSL certificate PEM")
@@ -741,7 +741,7 @@ Module Program
         Console_WriteLineInColour(" certifiable github.com -w certificate.h")
         Console_WriteLineInColour(" certifiable github.com -w certificate.h -o")
         Console_WriteLineInColour(" ")
-        Console_WriteLineInColour("Certifiable v1.1", ConsoleColor.Yellow)
+        Console_WriteLineInColour("Certifiable v1.2", ConsoleColor.Yellow)
         Console_WriteLineInColour("Copyright © 2025, Rob Latour", ConsoleColor.Yellow, True)
         Console_WriteLineInColour(" ")
         Console_WriteLineInColour("Certifiable is open source", ConsoleColor.Cyan)
