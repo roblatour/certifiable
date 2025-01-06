@@ -1,4 +1,4 @@
-# Certifiable (v1.2 January 4, 2025)
+# Certifiable (v1.2.1 January 6, 2025)
 
 Certifiable is a free open source command line program for Windows which generates code to assign a SSL Certificate PEM to a variable.
 
@@ -59,7 +59,7 @@ const char* GITHUB_COM_CERTIFICATE = "-----BEGIN CERTIFICATE-----\n" \
                                      "9skD5/4GneoMWzAlBgNVHREEHjAcggpnaXRodWIuY29tgg53d3cuZ2l0aHViLmNv\n" \
                                      "bTAKBggqhkjOPQQDAgNIADBFAiEAru2McPr0eNwcWNuDEY0a/rGzXRfRrm+6XfZe\n" \
                                      "SzhYZewCIBq4TUEBCgapv7xvAtRKdVdi/b4m36Uyej1ggyJsiesA\n" \
-                                     "-----END CERTIFICATE-----";
+                                     "-----END CERTIFICATE-----\n";
 ```
 
 
