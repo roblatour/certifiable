@@ -108,7 +108,8 @@ Options:<br>
 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;supported languages are: c++, python, and vb.net<br>
 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;for example: -g vb.net<br>
 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Additionally, c++ may be followed by the option progmem<br>
-&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;if c++ is followed by progmem the generated code will store the certificate in program memory (flash memory) rather than in RAM (SRAM)<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;if c++ is followed by progmem the generated code will store the certificate in program memory (flash memory)<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;rather than in RAM (SRAM)<br>
 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;for example: -g c++ progmem<br>
 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;if not used, the c++ will be assumed<br>
 <br>
