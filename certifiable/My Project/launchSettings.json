@@ -2,11 +2,35 @@
   "profiles": {
     "simple test of google": {
       "commandName": "Project",
-      "commandLineArgs": "google.com"
+      "commandLineArgs": "google.com -c"
     },
     "test with a port": {
       "commandName": "Project",
       "commandLineArgs": "mail.smtp2go.com -p 2525"
+    },
+    "test vb.net": {
+      "commandName": "Project",
+      "commandLineArgs": "google.com -g vb.net -c"
+    },
+    "test python": {
+      "commandName": "Project",
+      "commandLineArgs": "google.com -g python -c"
+    },
+    "test variable name": {
+      "commandName": "Project",
+      "commandLineArgs": "google.com -g vb.net -v root_certificate -c"
+    },
+    "test of canada.ca": {
+      "commandName": "Project",
+      "commandLineArgs": "canada.ca -c"
+    },
+    "display all canada.ca": {
+      "commandName": "Project",
+      "commandLineArgs": "canada.ca -d"
+    },
+    "test of canada.ca progmem": {
+      "commandName": "Project",
+      "commandLineArgs": "canada.ca -c -g c++ progmem"
     }
   }
 }
