@@ -1,4 +1,4 @@
-' Certifiable v1.3
+' Certifiable v1.4
 
 ' Copyright Rob Latour, 2025
 ' License MIT
