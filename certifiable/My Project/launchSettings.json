@@ -1,36 +1,48 @@
 {
   "profiles": {
-    "simple test of google": {
+	"google.com": {
+      "commandName": "Project",
+      "commandLineArgs": "google.com"
+    },
+    "google.com -c": {
       "commandName": "Project",
       "commandLineArgs": "google.com -c"
     },
-    "test with a port": {
-      "commandName": "Project",
-      "commandLineArgs": "mail.smtp2go.com -p 2525"
+    "google.com -g c++ -c": {
+	   "commandName": "Project",
+      "commandLineArgs": "google.com -g c++ -c"
     },
-    "test vb.net": {
-      "commandName": "Project",
-      "commandLineArgs": "google.com -g vb.net -c"
+	"google.com -g c++ progmem -c": {
+	   "commandName": "Project",
+      "commandLineArgs": "google.com -g c++ progmem -c"
     },
-    "test python": {
+    "google.com -g python -c": {
       "commandName": "Project",
       "commandLineArgs": "google.com -g python -c"
     },
-    "test variable name": {
+	"google.com -g vb.net -c": {
+      "commandName": "Project",
+      "commandLineArgs": "google.com -g vb.net -c"
+    },
+	"api.pushbullet.com -n 2 -c": {
+      "commandName": "Project",
+      "commandLineArgs": "api.pushbullet.com -n 2 -c"
+    },
+	"mail.smtp2go.com -p 252": {
+      "commandName": "Project",
+      "commandLineArgs": "mail.smtp2go.com -p  -c"
+    },
+    "google.com -g vb.net -v root_certificate -c": {
       "commandName": "Project",
       "commandLineArgs": "google.com -g vb.net -v root_certificate -c"
     },
-    "test of canada.ca": {
+    "canada.ca -c": {
       "commandName": "Project",
       "commandLineArgs": "canada.ca -c"
     },
-    "display all canada.ca": {
+    "canada.ca -d": {
       "commandName": "Project",
       "commandLineArgs": "canada.ca -d"
-    },
-    "test of canada.ca progmem": {
-      "commandName": "Project",
-      "commandLineArgs": "canada.ca -c -g c++ progmem"
     }
   }
 }
