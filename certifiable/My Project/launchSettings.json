@@ -1,6 +1,6 @@
 {
   "profiles": {
-	"google.com": {
+    "google.com": {
       "commandName": "Project",
       "commandLineArgs": "google.com"
     },
@@ -9,26 +9,26 @@
       "commandLineArgs": "google.com -c"
     },
     "google.com -g c++ -c": {
-	   "commandName": "Project",
+      "commandName": "Project",
       "commandLineArgs": "google.com -g c++ -c"
     },
-	"google.com -g c++ progmem -c": {
-	   "commandName": "Project",
+    "google.com -g c++ progmem -c": {
+      "commandName": "Project",
       "commandLineArgs": "google.com -g c++ progmem -c"
     },
     "google.com -g python -c": {
       "commandName": "Project",
       "commandLineArgs": "google.com -g python -c"
     },
-	"google.com -g vb.net -c": {
+    "google.com -g vb.net -c": {
       "commandName": "Project",
       "commandLineArgs": "google.com -g vb.net -c"
     },
-	"api.pushbullet.com -n 2 -c": {
+    "api.pushbullet.com -n 2 -c": {
       "commandName": "Project",
       "commandLineArgs": "api.pushbullet.com -n 2 -c"
     },
-	"mail.smtp2go.com -p 252": {
+    "mail.smtp2go.com -p 252": {
       "commandName": "Project",
       "commandLineArgs": "mail.smtp2go.com -p  -c"
     },
@@ -43,6 +43,14 @@
     "canada.ca -d": {
       "commandName": "Project",
       "commandLineArgs": "canada.ca -d"
+    },
+    "error.com -y": {
+      "commandName": "Project",
+      "commandLineArgs": "error.com -y"
+    },
+    "?": {
+      "commandName": "Project",
+      "commandLineArgs": "?"
     }
   }
 }

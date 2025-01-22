@@ -2,7 +2,7 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_LastSelectedProfileId>E:\Documents\VBNet\certifiable\certifiable\My Project\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
-    <ActiveDebugProfile>api.pushbullet.com -n 2 -c</ActiveDebugProfile>
+    <ActiveDebugProfile>?</ActiveDebugProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

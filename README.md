@@ -1,4 +1,4 @@
-# Certifiable (v1.4 January 21, 2025)
+# Certifiable (v1.5 January 22, 2025)
 
 Certifiable is an open source command line program for Windows which generates code to assign a SSL Certificate PEM to a variable.
 
@@ -8,7 +8,7 @@ The following languages are supported for code generation: C++, Python, and VB.n
 
 You are welcome to download and use Certifiable on as many computers as you would like.
 
-A downloadable signed executable portable copy of the program for Windows (x64) is available from [here](https://github.com/roblatour/certifiable/releases/download/v1.4.0.0/certifiable.exe).
+A downloadable signed executable portable copy of the program for Windows (x64) is available from [here](https://github.com/roblatour/certifiable/releases/download/v1.5.0.0/certifiable.exe).
 
 ## License
 Certifiable is licensed under a [MIT license](https://github.com/roblatour/certifiable/blob/main/LICENSE)
@@ -74,7 +74,7 @@ static const char *API_PUSHBULLET_COM_CERTIFICATE = "-----BEGIN CERTIFICATE-----
 
 From the command prompt just type "certifiable ?" (without the quotes) to see the help as mostly reproduced below:<br>
 
-certifiable [ host (-p n) (-d) (-n n) (-g x) (-v x) (-c) (-w) (-o) (-f) ] | [ ] | [ ? ]<br>
+certifiable [ host (-p n) (-d) (-n n) (-g x (progmem)) (-v x) (-c) (-w x) (-o) (-f) ] | [ ] | [ ? ]<br>
 
 host&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;the host name or IP address from which to get the certificate(s)<br>
        for example: google.com, www.google.com, 142.251.41.14<br>

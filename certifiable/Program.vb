@@ -1,4 +1,4 @@
-' Certifiable v1.4
+' Certifiable v1.5
 
 ' Copyright Rob Latour, 2025
 ' License MIT
@@ -34,14 +34,11 @@ Module Program
     Dim gExpiredCertificates As Integer = 0
     Dim gCurrentCertificates As Integer = 0
     Dim gFutureCertificates As Integer = 0
-
     Dim gCurrentTimeUTC As DateTime
-
     Dim gStartingColour As ConsoleColor
-
     Dim gPrettyCommandLine As String
 
-    Dim allCertifcates As New List(Of X509Certificate2)()
+    ReadOnly gAllCertifcates As New List(Of X509Certificate2)()
 
     Private Function ServerCertificateValidationCallback(sender As Object, certificate As X509Certificate2, chain As X509Chain, sslPolicyErrors As SslPolicyErrors) As Boolean
 
@@ -83,12 +80,12 @@ Module Program
                         If gCurrentTimeUTC > cert.Certificate.NotAfter Then
                             gExpiredCertificates += 1
                         ElseIf (gCurrentTimeUTC >= cert.Certificate.NotBefore) AndAlso (gCurrentTimeUTC <= cert.Certificate.NotAfter) Then
-                            allCertifcates.Add(cert.Certificate)
+                            gAllCertifcates.Add(cert.Certificate)
                             gCurrentCertificates += 1
                         Else
                             gFutureCertificates += 1
                             If iFuture Then
-                                allCertifcates.Add(cert.Certificate)
+                                gAllCertifcates.Add(cert.Certificate)
                             End If
                         End If
                     Next
@@ -121,11 +118,11 @@ Module Program
 
     Private Sub DisplayCertificates()
 
-        If allCertifcates.Count > 0 Then
+        If gAllCertifcates.Count > 0 Then
 
             Dim count As Integer = 0
 
-            For Each cert As X509Certificate2 In allCertifcates
+            For Each cert As X509Certificate2 In gAllCertifcates
 
                 count += 1
 
@@ -191,7 +188,7 @@ Module Program
 
         If iCertNumSpecified Then
 
-            Dim cert As X509Certificate2 = allCertifcates(iCertNum - 1)
+            Dim cert As X509Certificate2 = gAllCertifcates(iCertNum - 1)
 
             returnValue &= startCommentString & "The certificate below is valid between " & cert.NotBefore.ToString(dateAndTimeFormat) & " (UTC) and " & cert.NotAfter.ToString(dateAndTimeFormat) & " (UTC) inclusive" & vbCrLf
 
@@ -199,7 +196,7 @@ Module Program
 
             Dim count As Integer = 0
 
-            For Each cert As X509Certificate2 In allCertifcates
+            For Each cert As X509Certificate2 In gAllCertifcates
                 count += 1
                 returnValue &= startCommentString & "Certificate " & count & " below is valid between " & cert.NotBefore.ToString(dateAndTimeFormat) & " (UTC) and " & cert.NotAfter.ToString(dateAndTimeFormat) & " (UTC) inclusive" & vbCrLf
             Next
@@ -251,12 +248,12 @@ Module Program
                 endCert = iCertNum - 1
             Else
                 startCert = 0
-                endCert = allCertifcates.Count - 1
+                endCert = gAllCertifcates.Count - 1
             End If
 
             For i = startCert To endCert
 
-                Dim cert As X509Certificate2 = allCertifcates(i)
+                Dim cert As X509Certificate2 = gAllCertifcates(i)
 
                 Using reader As New StringReader(cert.ExportCertificatePem)
                     Dim line As String = reader.ReadLine()
@@ -323,14 +320,14 @@ Module Program
                 endCert = iCertNum - 1
             Else
                 startCert = 0
-                endCert = allCertifcates.Count - 1
+                endCert = gAllCertifcates.Count - 1
             End If
 
             Dim skipFirstLineIndent As Boolean = True
 
             For i = startCert To endCert
 
-                Dim cert As X509Certificate2 = allCertifcates(i)
+                Dim cert As X509Certificate2 = gAllCertifcates(i)
 
                 Using reader As New StringReader(cert.ExportCertificatePem)
                     Dim line As String = reader.ReadLine()
@@ -410,12 +407,12 @@ Module Program
                 endCert = iCertNum - 1
             Else
                 startCert = 0
-                endCert = allCertifcates.Count - 1
+                endCert = gAllCertifcates.Count - 1
             End If
 
             For i = startCert To endCert
 
-                Dim cert As X509Certificate2 = allCertifcates(i)
+                Dim cert As X509Certificate2 = gAllCertifcates(i)
 
                 Using reader As New StringReader(cert.ExportCertificatePem)
                     Dim line As String = reader.ReadLine()
@@ -493,14 +490,14 @@ Module Program
                 endCert = iCertNum - 1
             Else
                 startCert = 0
-                endCert = allCertifcates.Count - 1
+                endCert = gAllCertifcates.Count - 1
             End If
 
             Dim skipFirstLineIndent As Boolean = True
 
             For i = startCert To endCert
 
-                Dim cert As X509Certificate2 = allCertifcates(i)
+                Dim cert As X509Certificate2 = gAllCertifcates(i)
 
                 Using reader As New StringReader(cert.ExportCertificatePem)
 
@@ -730,7 +727,7 @@ Module Program
         End If
 
         ' List of valid arguments
-        Dim validArguments As HashSet(Of String) = New HashSet(Of String) From {"-p", "-g", "-v", "-d", "-n", "-c", "-w", "-o", "-f"}
+        Dim validArguments As New HashSet(Of String) From {"-p", "-g", "-v", "-d", "-n", "-c", "-w", "-o", "-f"}
 
         Dim invalidArgumentFound As Boolean = False
 
@@ -886,7 +883,7 @@ Module Program
 
         If iGenerateLanguage <> "c++" Then
             For Each arg As String In args
-                If arg.ToLower() = "progmem" Then
+                If arg.Equals("progmem", StringComparison.CurrentCultureIgnoreCase) Then
                     ConsoleWriteLineInColour("The progmem option can only be used when generating c++", ConsoleColor.Red)
                     Return False
                     Exit For
@@ -942,7 +939,7 @@ Module Program
         ConsoleWriteLineInColour("Certifiable will generate the code for assigning a variable a SSL certificate PEM")
         ConsoleWriteLineInColour(" ")
         ConsoleWriteLineInColour("Usage:")
-        ConsoleWriteLineInColour("certifiable [ host (-p n) (-d) (-n n) (-g x) (-v x) (-c) (-w) (-o) (-f) ] | [ ] | [ ? ]")
+        ConsoleWriteLineInColour("certifiable [ host (-p n) (-d) (-n n) (-g x (progmem)) (-v x) (-c) (-w x) (-o) (-f) ] | [ ] | [ ? ]")
         ConsoleWriteLineInColour(" ")
         ConsoleWriteLineInColour("host   the host name or IP address from which to get the certificate(s)")
         ConsoleWriteLineInColour("       for example: google.com, www.google.com, 142.251.41.14")
