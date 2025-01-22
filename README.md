@@ -25,7 +25,7 @@ From the Windows command line:
 ```cpp
 certifiable api.pushbullet.com -n 2 -c
 ```
-the following response is returned
+the following response is returned:
 
 C++ certificate code for api.pushbullet.com:443 copied to the clipboard
 
