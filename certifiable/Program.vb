@@ -41,7 +41,7 @@ Module Program
 
     Dim gPrettyCommandLine As String
 
-    Dim AllCertifcates As New List(Of X509Certificate2)()
+    Dim allCertifcates As New List(Of X509Certificate2)()
 
     Private Function ServerCertificateValidationCallback(sender As Object, certificate As X509Certificate2, chain As X509Chain, sslPolicyErrors As SslPolicyErrors) As Boolean
 
@@ -83,12 +83,12 @@ Module Program
                         If gCurrentTimeUTC > cert.Certificate.NotAfter Then
                             gExpiredCertificates += 1
                         ElseIf (gCurrentTimeUTC >= cert.Certificate.NotBefore) AndAlso (gCurrentTimeUTC <= cert.Certificate.NotAfter) Then
-                            AllCertifcates.Add(cert.Certificate)
+                            allCertifcates.Add(cert.Certificate)
                             gCurrentCertificates += 1
                         Else
                             gFutureCertificates += 1
                             If iFuture Then
-                                AllCertifcates.Add(cert.Certificate)
+                                allCertifcates.Add(cert.Certificate)
                             End If
                         End If
                     Next
@@ -96,19 +96,19 @@ Module Program
             End Using
         Catch ex As TimeoutException
 
-            Console_WriteLineInColour("Error: the connection attempt to " & iHost & ":" & iPort & " timed out", ConsoleColor.Red)
+            ConsoleWriteLineInColour("Error: the connection attempt to " & iHost & ":" & iPort & " timed out", ConsoleColor.Red)
 
             Return False
 
         Catch ex As Exception
 
-            Console_WriteLineInColour(" ", ConsoleColor.Red)
-            Console_WriteLineInColour("Error:", ConsoleColor.Red)
+            ConsoleWriteLineInColour(" ", ConsoleColor.Red)
+            ConsoleWriteLineInColour("Error:", ConsoleColor.Red)
 
-            Console_WriteLineInColour(ex.Message, ConsoleColor.Red)
+            ConsoleWriteLineInColour(ex.Message, ConsoleColor.Red)
 
             If ex.Message.Contains("Cannot determine the frame size or a corrupted frame was received") Then
-                Console_WriteLineInColour("It may be you are looking for a certificate where there is none. For example with a server that only supports http and not https connections.", ConsoleColor.Red)
+                ConsoleWriteLineInColour("It may be you are looking for a certificate where there is none. For example with a server that only supports http and not https connections.", ConsoleColor.Red)
             End If
 
             Return False
@@ -121,32 +121,32 @@ Module Program
 
     Private Sub DisplayCertificates()
 
-        If AllCertifcates.Count > 0 Then
+        If allCertifcates.Count > 0 Then
 
             Dim count As Integer = 0
 
-            For Each cert As X509Certificate2 In AllCertifcates
+            For Each cert As X509Certificate2 In allCertifcates
 
                 count += 1
 
                 If (iCertNumSpecified AndAlso (count = iCertNum)) OrElse (Not iCertNumSpecified) Then
 
-                    Console_WriteLineInColour(" ")
-                    Console_WriteLineInColour("Certificate Number:  " & count, ConsoleColor.Cyan)
-                    Console_WriteLineInColour("Friendly Name:       " & cert.FriendlyName)
-                    Console_WriteLineInColour("Subject:             " & cert.Subject)
-                    Console_WriteLineInColour("Issuer:              " & cert.Issuer)
+                    ConsoleWriteLineInColour(" ")
+                    ConsoleWriteLineInColour("Certificate Number:  " & count, ConsoleColor.Cyan)
+                    ConsoleWriteLineInColour("Friendly Name:       " & cert.FriendlyName)
+                    ConsoleWriteLineInColour("Subject:             " & cert.Subject)
+                    ConsoleWriteLineInColour("Issuer:              " & cert.Issuer)
                     If (gCurrentTimeUTC >= cert.NotBefore) AndAlso (gCurrentTimeUTC <= cert.NotAfter) Then
-                        Console_WriteLineInColour("Not Before:          " & cert.NotBefore, ConsoleColor.Green)
-                        Console_WriteLineInColour("Not After:           " & cert.NotAfter, ConsoleColor.Green)
+                        ConsoleWriteLineInColour("Not Before:          " & cert.NotBefore, ConsoleColor.Green)
+                        ConsoleWriteLineInColour("Not After:           " & cert.NotAfter, ConsoleColor.Green)
                     Else
-                        Console_WriteLineInColour("Not Before:          " & cert.NotBefore, ConsoleColor.Yellow)
-                        Console_WriteLineInColour("Not After:           " & cert.NotAfter, ConsoleColor.Yellow)
+                        ConsoleWriteLineInColour("Not Before:          " & cert.NotBefore, ConsoleColor.Yellow)
+                        ConsoleWriteLineInColour("Not After:           " & cert.NotAfter, ConsoleColor.Yellow)
                     End If
-                    Console_WriteLineInColour("Signature Algorithm: " & cert.SignatureAlgorithm.ToString)
-                    Console_WriteLineInColour("Serial Number:       " & cert.SerialNumber)
-                    Console_WriteLineInColour("Thumbprint:          " & cert.Thumbprint)
-                    Console_WriteLineInColour("PEM:                 " & cert.ExportCertificatePem)
+                    ConsoleWriteLineInColour("Signature Algorithm: " & cert.SignatureAlgorithm.ToString)
+                    ConsoleWriteLineInColour("Serial Number:       " & cert.SerialNumber)
+                    ConsoleWriteLineInColour("Thumbprint:          " & cert.Thumbprint)
+                    ConsoleWriteLineInColour("PEM:                 " & cert.ExportCertificatePem)
 
                 End If
 
@@ -155,21 +155,21 @@ Module Program
         End If
 
         If gExpiredCertificates = 1 Then
-            Console_WriteLineInColour(" ")
-            Console_WriteLineInColour("One expired certificate was not shown", ConsoleColor.Yellow)
+            ConsoleWriteLineInColour(" ")
+            ConsoleWriteLineInColour("One expired certificate was not shown", ConsoleColor.Yellow)
         ElseIf gExpiredCertificates = 1 Then
-            Console_WriteLineInColour(" ")
-            Console_WriteLineInColour(gExpiredCertificates & " expired certificate were not shown", ConsoleColor.Yellow)
+            ConsoleWriteLineInColour(" ")
+            ConsoleWriteLineInColour(gExpiredCertificates & " expired certificate were not shown", ConsoleColor.Yellow)
         End If
 
         If iFuture AndAlso (gFutureCertificates = 0) Then
-            Console_WriteLineInColour(" ")
-            Console_WriteLineInColour("There are no future dated certificates", ConsoleColor.Yellow)
+            ConsoleWriteLineInColour(" ")
+            ConsoleWriteLineInColour("There are no future dated certificates", ConsoleColor.Yellow)
         End If
 
     End Sub
 
-    Private Function createGenericOpeningComments(ByVal startCommentString As String) As String
+    Private Function CreateGenericOpeningComments(ByVal startCommentString As String) As String
 
         Dim returnValue As String
 
@@ -187,11 +187,11 @@ Module Program
 
         Const dateAndTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
 
-        Dim returnValue As String = createGenericOpeningComments(startCommentString)
+        Dim returnValue As String = CreateGenericOpeningComments(startCommentString)
 
         If iCertNumSpecified Then
 
-            Dim cert As X509Certificate2 = AllCertifcates(iCertNum - 1)
+            Dim cert As X509Certificate2 = allCertifcates(iCertNum - 1)
 
             returnValue &= startCommentString & "The certificate below is valid between " & cert.NotBefore.ToString(dateAndTimeFormat) & " (UTC) and " & cert.NotAfter.ToString(dateAndTimeFormat) & " (UTC) inclusive" & vbCrLf
 
@@ -199,7 +199,7 @@ Module Program
 
             Dim count As Integer = 0
 
-            For Each cert As X509Certificate2 In AllCertifcates
+            For Each cert As X509Certificate2 In allCertifcates
                 count += 1
                 returnValue &= startCommentString & "Certificate " & count & " below is valid between " & cert.NotBefore.ToString(dateAndTimeFormat) & " (UTC) and " & cert.NotAfter.ToString(dateAndTimeFormat) & " (UTC) inclusive" & vbCrLf
             Next
@@ -214,7 +214,7 @@ Module Program
 
     Private Function CreateOutputFileForCPlusPlusProgMem() As String
 
-        Dim ReturnValue As String = String.Empty
+        Dim returnValue As String = String.Empty
 
         Try
 
@@ -251,12 +251,12 @@ Module Program
                 endCert = iCertNum - 1
             Else
                 startCert = 0
-                endCert = AllCertifcates.Count - 1
+                endCert = allCertifcates.Count - 1
             End If
 
             For i = startCert To endCert
 
-                Dim cert As X509Certificate2 = AllCertifcates(i)
+                Dim cert As X509Certificate2 = allCertifcates(i)
 
                 Using reader As New StringReader(cert.ExportCertificatePem)
                     Dim line As String = reader.ReadLine()
@@ -270,23 +270,23 @@ Module Program
 
             outputString &= endString & vbCrLf
 
-            ReturnValue = outputString
+            returnValue = outputString
 
         Catch ex As Exception
 
-            Console_WriteLineInColour(" ", ConsoleColor.Red)
-            Console_WriteLineInColour("Error:", ConsoleColor.Red)
-            Console_WriteLineInColour(ex.Message, ConsoleColor.Red)
+            ConsoleWriteLineInColour(" ", ConsoleColor.Red)
+            ConsoleWriteLineInColour("Error:", ConsoleColor.Red)
+            ConsoleWriteLineInColour(ex.Message, ConsoleColor.Red)
 
         End Try
 
-        Return ReturnValue
+        Return returnValue
 
     End Function
 
     Private Function CreateOutputFileForCPlusPlus() As String
 
-        Dim ReturnValue As String = String.Empty
+        Dim returnValue As String = String.Empty
 
         Try
 
@@ -323,14 +323,14 @@ Module Program
                 endCert = iCertNum - 1
             Else
                 startCert = 0
-                endCert = AllCertifcates.Count - 1
+                endCert = allCertifcates.Count - 1
             End If
 
             Dim skipFirstLineIndent As Boolean = True
 
             For i = startCert To endCert
 
-                Dim cert As X509Certificate2 = AllCertifcates(i)
+                Dim cert As X509Certificate2 = allCertifcates(i)
 
                 Using reader As New StringReader(cert.ExportCertificatePem)
                     Dim line As String = reader.ReadLine()
@@ -358,22 +358,22 @@ Module Program
 
             Next
 
-            ReturnValue = outputString
+            returnValue = outputString
 
         Catch ex As Exception
 
-            Console_WriteLineInColour(" ", ConsoleColor.Red)
-            Console_WriteLineInColour("Error:", ConsoleColor.Red)
-            Console_WriteLineInColour(ex.Message, ConsoleColor.Red)
+            ConsoleWriteLineInColour(" ", ConsoleColor.Red)
+            ConsoleWriteLineInColour("Error:", ConsoleColor.Red)
+            ConsoleWriteLineInColour(ex.Message, ConsoleColor.Red)
 
         End Try
 
-        Return ReturnValue
+        Return returnValue
 
     End Function
     Private Function CreateOutputFileForPython() As String
 
-        Dim ReturnValue As String = String.Empty
+        Dim returnValue As String = String.Empty
 
         Try
 
@@ -410,12 +410,12 @@ Module Program
                 endCert = iCertNum - 1
             Else
                 startCert = 0
-                endCert = AllCertifcates.Count - 1
+                endCert = allCertifcates.Count - 1
             End If
 
             For i = startCert To endCert
 
-                Dim cert As X509Certificate2 = AllCertifcates(i)
+                Dim cert As X509Certificate2 = allCertifcates(i)
 
                 Using reader As New StringReader(cert.ExportCertificatePem)
                     Dim line As String = reader.ReadLine()
@@ -439,24 +439,24 @@ Module Program
 
             Next
 
-            ReturnValue = outputString
+            returnValue = outputString
 
         Catch ex As Exception
 
-            Console_WriteLineInColour(" ", ConsoleColor.Red)
-            Console_WriteLineInColour("Error:", ConsoleColor.Red)
-            Console_WriteLineInColour(ex.Message, ConsoleColor.Red)
+            ConsoleWriteLineInColour(" ", ConsoleColor.Red)
+            ConsoleWriteLineInColour("Error:", ConsoleColor.Red)
+            ConsoleWriteLineInColour(ex.Message, ConsoleColor.Red)
 
         End Try
 
 
-        Return ReturnValue
+        Return returnValue
 
     End Function
 
     Private Function CreateOutputFileForVBNet() As String
 
-        Dim ReturnValue As String = String.Empty
+        Dim returnValue As String = String.Empty
 
         Try
 
@@ -493,14 +493,14 @@ Module Program
                 endCert = iCertNum - 1
             Else
                 startCert = 0
-                endCert = AllCertifcates.Count - 1
+                endCert = allCertifcates.Count - 1
             End If
 
             Dim skipFirstLineIndent As Boolean = True
 
             For i = startCert To endCert
 
-                Dim cert As X509Certificate2 = AllCertifcates(i)
+                Dim cert As X509Certificate2 = allCertifcates(i)
 
                 Using reader As New StringReader(cert.ExportCertificatePem)
 
@@ -529,18 +529,18 @@ Module Program
 
             Next
 
-            ReturnValue = outputString
+            returnValue = outputString
 
         Catch ex As Exception
 
-            Console_WriteLineInColour(" ", ConsoleColor.Red)
-            Console_WriteLineInColour("Error:", ConsoleColor.Red)
-            Console_WriteLineInColour(ex.Message, ConsoleColor.Red)
+            ConsoleWriteLineInColour(" ", ConsoleColor.Red)
+            ConsoleWriteLineInColour("Error:", ConsoleColor.Red)
+            ConsoleWriteLineInColour(ex.Message, ConsoleColor.Red)
 
         End Try
 
 
-        Return ReturnValue
+        Return returnValue
 
     End Function
 
@@ -568,26 +568,26 @@ Module Program
                 outputString = CreateOutputFileForVBNet()
 
             Case Else
-                Console_WriteLineInColour("Invalid code format " & iGenerateLanguage, ConsoleColor.Yellow)
+                ConsoleWriteLineInColour("Invalid code format " & iGenerateLanguage, ConsoleColor.Yellow)
 
         End Select
 
-        ' Console_WriteLineInColour(outputString) 
+        ' ConsoleWriteLineInColour(outputString) 
 
         Try
 
             If iCopyToClipboard Then
 
                 ClipboardService.SetText(outputString)
-                Console_WriteLineInColour(" ")
-                Console_WriteLineInColour(codeType & " certificate code for " & iHost & ":" & iPort & " copied to the clipboard", ConsoleColor.Green)
+                ConsoleWriteLineInColour(" ")
+                ConsoleWriteLineInColour(codeType & " certificate code for " & iHost & ":" & iPort & " copied to the clipboard", ConsoleColor.Green)
 
             End If
 
         Catch ex As Exception
 
-            Console_WriteLineInColour("Error: Copy to clipboard failed", ConsoleColor.Red)
-            Console_WriteLineInColour(ex.Message, ConsoleColor.Red)
+            ConsoleWriteLineInColour("Error: Copy to clipboard failed", ConsoleColor.Red)
+            ConsoleWriteLineInColour(ex.Message, ConsoleColor.Red)
 
         End Try
 
@@ -597,7 +597,7 @@ Module Program
 
                 If outputString.Length > 0 Then
 
-                    Dim OKToWrite As Boolean = True
+                    Dim oKToWrite As Boolean = True
 
                     ' Check if the file exists
 
@@ -606,22 +606,22 @@ Module Program
 
                         If File.Exists(iOutputFilename) Then
 
-                            Console_WriteLineInColour(iOutputFilename & " already exists. Do you want to overwrite it? (y/n)", ConsoleColor.Yellow)
+                            ConsoleWriteLineInColour(iOutputFilename & " already exists. Do you want to overwrite it? (y/n)", ConsoleColor.Yellow)
 
                             Dim response As String = Console.ReadLine().ToLower()
 
                             If response = "y" OrElse response = "yes" Then
                             Else
-                                Console_WriteLineInColour(iOutputFilename & " will not be overwritten")
-                                Console_WriteLineInColour(codeType & " certificate code for " & iHost & ":" & iPort & " was not exported to " & iOutputFilename, ConsoleColor.Yellow)
-                                OKToWrite = False
+                                ConsoleWriteLineInColour(iOutputFilename & " will not be overwritten")
+                                ConsoleWriteLineInColour(codeType & " certificate code for " & iHost & ":" & iPort & " was not exported to " & iOutputFilename, ConsoleColor.Yellow)
+                                oKToWrite = False
                             End If
 
                         End If
 
                     End If
 
-                    If OKToWrite Then
+                    If oKToWrite Then
 
                         ' Write the output to the output file
 
@@ -637,8 +637,8 @@ Module Program
                             file.WriteLine(outputString)
                         End Using
 
-                        Console_WriteLineInColour(" ")
-                        Console_WriteLineInColour(codeType & " certificate code for " & iHost & ":" & iPort & " exported to " & iOutputFilename, ConsoleColor.Green)
+                        ConsoleWriteLineInColour(" ")
+                        ConsoleWriteLineInColour(codeType & " certificate code for " & iHost & ":" & iPort & " exported to " & iOutputFilename, ConsoleColor.Green)
 
                     End If
 
@@ -649,8 +649,8 @@ Module Program
 
         Catch ex As Exception
 
-            Console_WriteLineInColour("Error: Failed to write to " & iOutputFilename, ConsoleColor.Red)
-            Console_WriteLineInColour(ex.Message, ConsoleColor.Red)
+            ConsoleWriteLineInColour("Error: Failed to write to " & iOutputFilename, ConsoleColor.Red)
+            ConsoleWriteLineInColour(ex.Message, ConsoleColor.Red)
 
         End Try
 
@@ -669,14 +669,14 @@ Module Program
         If returnCode Then
         Else
 
-            Console_WriteLineInColour("The -n option value was set to " & iCertNum, ConsoleColor.Red)
-            Console_WriteLineInColour("However, for " & iHost & ":" & iPort & " the -n option value must be between 1 and " & (gCurrentCertificates).ToString & " (inclusive)", ConsoleColor.Red)
+            ConsoleWriteLineInColour("The -n option value was set to " & iCertNum, ConsoleColor.Red)
+            ConsoleWriteLineInColour("However, for " & iHost & ":" & iPort & " the -n option value must be between 1 and " & (gCurrentCertificates).ToString & " (inclusive)", ConsoleColor.Red)
 
             If gFutureCertificates > 0 Then
-                Console_WriteLineInColour("unless the -f option is used, in which case the -n option value must be between 1 and " & (gCurrentCertificates + gFutureCertificates).ToString & " (inclusive)", ConsoleColor.Red)
+                ConsoleWriteLineInColour("unless the -f option is used, in which case the -n option value must be between 1 and " & (gCurrentCertificates + gFutureCertificates).ToString & " (inclusive)", ConsoleColor.Red)
             End If
-            Console_WriteLineInColour(" ")
-            Console_WriteLineInColour("For more information, here is the information on all current and future dated certifications:")
+            ConsoleWriteLineInColour(" ")
+            ConsoleWriteLineInColour("For more information, here is the information on all current and future dated certifications:")
 
             iCertNumSpecified = False
             iFuture = True
@@ -688,9 +688,9 @@ Module Program
 
     End Function
     <System.Diagnostics.DebuggerStepThrough()>
-    Private Sub Console_WriteLineInColour(ByVal Message As String, Optional ByVal Colour As ConsoleColor = ConsoleColor.Gray, Optional PrintSpecialCharacters As Boolean = False)
+    Private Sub ConsoleWriteLineInColour(ByVal Message As String, Optional ByVal Colour As ConsoleColor = ConsoleColor.Gray, Optional PrintSpecialCharacters As Boolean = False)
 
-        Dim OriginalTextEncoding As System.Text.Encoding = System.Console.OutputEncoding
+        Dim originalTextEncoding As System.Text.Encoding = System.Console.OutputEncoding
 
         Try
 
@@ -709,14 +709,14 @@ Module Program
             End If
 
             If PrintSpecialCharacters Then
-                System.Console.OutputEncoding = OriginalTextEncoding
+                System.Console.OutputEncoding = originalTextEncoding
             End If
 
         Catch ex As Exception
 
-            Console_WriteLineInColour(" ", ConsoleColor.Red)
-            Console_WriteLineInColour("Error:", ConsoleColor.Red)
-            Console_WriteLineInColour(ex.Message, ConsoleColor.Red)
+            ConsoleWriteLineInColour(" ", ConsoleColor.Red)
+            ConsoleWriteLineInColour("Error:", ConsoleColor.Red)
+            ConsoleWriteLineInColour(ex.Message, ConsoleColor.Red)
 
         End Try
 
@@ -736,13 +736,13 @@ Module Program
 
         For Each arg As String In args
             If arg.StartsWith("-"c) AndAlso Not validArguments.Contains(arg) Then
-                Console_WriteLineInColour("Invalid argument: " & arg, ConsoleColor.Red)
+                ConsoleWriteLineInColour("Invalid argument: " & arg, ConsoleColor.Red)
                 invalidArgumentFound = True
             End If
         Next
 
         If invalidArgumentFound Then
-            Console_WriteLineInColour("please correct", ConsoleColor.Red)
+            ConsoleWriteLineInColour("please correct", ConsoleColor.Red)
             Return False
         End If
 
@@ -758,11 +758,11 @@ Module Program
                         If i + 1 < args.Length Then
                             If (Integer.TryParse(args(i + 1), iPort)) Then
                             Else
-                                Console_WriteLineInColour("the -p option, if used, must be followed an integer value from 1 to 65535 inclusive", ConsoleColor.Red)
+                                ConsoleWriteLineInColour("the -p option, if used, must be followed an integer value from 1 to 65535 inclusive", ConsoleColor.Red)
                                 Return False
                             End If
                         Else
-                            Console_WriteLineInColour("the -p option is missing the port number", ConsoleColor.Red)
+                            ConsoleWriteLineInColour("the -p option is missing the port number", ConsoleColor.Red)
                             Return False
                         End If
 
@@ -770,7 +770,7 @@ Module Program
                         If i + 1 < args.Length Then
                             iGenerateLanguage = args(i + 1)
                         Else
-                            Console_WriteLineInColour("the -g option is missing the language", ConsoleColor.Red)
+                            ConsoleWriteLineInColour("the -g option is missing the language", ConsoleColor.Red)
                             Return False
                         End If
 
@@ -783,7 +783,7 @@ Module Program
                                     If testForProgMem.StartsWith("-"c) Then
                                         iUsePROGMEM = False
                                     Else
-                                        Console_WriteLineInColour("Invalid option following '-g c++'", ConsoleColor.Red)
+                                        ConsoleWriteLineInColour("Invalid option following '-g c++'", ConsoleColor.Red)
                                         Return False
                                     End If
                                 End If
@@ -796,7 +796,7 @@ Module Program
                         If i + 1 < args.Length Then
                             iVariableName = args(i + 1)
                         Else
-                            Console_WriteLineInColour("the -v option is missing the variable name", ConsoleColor.Red)
+                            ConsoleWriteLineInColour("the -v option is missing the variable name", ConsoleColor.Red)
                             Return False
                         End If
 
@@ -808,11 +808,11 @@ Module Program
                             If (Integer.TryParse(args(i + 1), iCertNum)) Then
                                 iCertNumSpecified = True
                             Else
-                                Console_WriteLineInColour("the -n option, if used, must be followed an integer value greater than 0", ConsoleColor.Red)
+                                ConsoleWriteLineInColour("the -n option, if used, must be followed an integer value greater than 0", ConsoleColor.Red)
                                 Return False
                             End If
                         Else
-                            Console_WriteLineInColour("the -n option is missing the certificate number", ConsoleColor.Red)
+                            ConsoleWriteLineInColour("the -n option is missing the certificate number", ConsoleColor.Red)
                             Return False
                         End If
 
@@ -825,11 +825,11 @@ Module Program
                                 iWriteToFile = True
                                 iOutputFilename = args(i + 1)
                             Catch ex As Exception
-                                Console_WriteLineInColour("the -w option, if used, must be followed by a filename which may include a path", ConsoleColor.Red)
+                                ConsoleWriteLineInColour("the -w option, if used, must be followed by a filename which may include a path", ConsoleColor.Red)
                                 Return False
                             End Try
                         Else
-                            Console_WriteLineInColour("the -w option is missing the filename", ConsoleColor.Red)
+                            ConsoleWriteLineInColour("the -w option is missing the filename", ConsoleColor.Red)
                             Return False
                         End If
 
@@ -845,26 +845,26 @@ Module Program
                 End Select
             Next
         Catch ex As Exception
-            Console_WriteLineInColour("expecting more information", ConsoleColor.Red)
+            ConsoleWriteLineInColour("expecting more information", ConsoleColor.Red)
             Return False
         End Try
 
         If Not ((Uri.CheckHostName(iHost) = UriHostNameType.Dns) OrElse (Uri.CheckHostName(iHost) = UriHostNameType.IPv4) OrElse (Uri.CheckHostName(iHost) = UriHostNameType.IPv6)) Then
-            Console_WriteLineInColour("the host must be a valid domain name or IP address", ConsoleColor.Red)
+            ConsoleWriteLineInColour("the host must be a valid domain name or IP address", ConsoleColor.Red)
             Return False
         End If
 
         If IsNumeric(iPort) AndAlso ((iPort > 0) AndAlso (iPort < 65536)) Then
             ' OK
         Else
-            Console_WriteLineInColour("the -p option, if used, must be followed an integer value from 1 to 65535 inclusive", ConsoleColor.Red)
+            ConsoleWriteLineInColour("the -p option, if used, must be followed an integer value from 1 to 65535 inclusive", ConsoleColor.Red)
             Return False
         End If
 
         If IsNumeric(iCertNum) AndAlso ((iCertNum > 0)) Then
             ' OK
         Else
-            Console_WriteLineInColour("the -c option, if used, must be followed by an integer value greater than 0", ConsoleColor.Red)
+            ConsoleWriteLineInColour("the -c option, if used, must be followed by an integer value greater than 0", ConsoleColor.Red)
             Return False
         End If
 
@@ -877,7 +877,7 @@ Module Program
             iGenerateLanguage = iGenerateLanguage.ToLower()
             If (iGenerateLanguage = "c++") OrElse (iGenerateLanguage = "vb.net") OrElse (iGenerateLanguage = "python") Then
             Else
-                Console_WriteLineInColour("the -f option, if used, must be followed by 'c++', 'python', or 'vb.net' (without the quotes)", ConsoleColor.Red)
+                ConsoleWriteLineInColour("the -f option, if used, must be followed by 'c++', 'python', or 'vb.net' (without the quotes)", ConsoleColor.Red)
                 Return False
             End If
         Else
@@ -887,7 +887,7 @@ Module Program
         If iGenerateLanguage <> "c++" Then
             For Each arg As String In args
                 If arg.ToLower() = "progmem" Then
-                    Console_WriteLineInColour("The progmem option can only be used when generating c++", ConsoleColor.Red)
+                    ConsoleWriteLineInColour("The progmem option can only be used when generating c++", ConsoleColor.Red)
                     Return False
                     Exit For
                 End If
@@ -931,100 +931,100 @@ Module Program
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub DisplayHelp()
 
-        Dim StartingColour As ConsoleColor = Console.ForegroundColor
+        Dim startingColour As ConsoleColor = Console.ForegroundColor
 
         Dim versionNumber As String = GetVersionNumber()
 
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour("Certifiable v" & GetVersionNumber() & " Help", ConsoleColor.White)
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour("Given a host name or IP address, and some additional information as outlined below,")
-        Console_WriteLineInColour("Certifiable will generate the code for assigning a variable a SSL certificate PEM")
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour("Usage:")
-        Console_WriteLineInColour("certifiable [ host (-p n) (-d) (-n n) (-g x) (-v x) (-c) (-w) (-o) (-f) ] | [ ] | [ ? ]")
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour("host   the host name or IP address from which to get the certificate(s)")
-        Console_WriteLineInColour("       for example: google.com, www.google.com, 142.251.41.14")
-        Console_WriteLineInColour("       a host value is required in all cases other than displaying this help information")
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour("Options:", ConsoleColor.White)
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour(" -p n  the host's port number")
-        Console_WriteLineInColour("       for example: -p 8096")
-        Console_WriteLineInColour("       if not used a port number of 443 will be assumed")
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour(" -d    display the host's certificate(s) with unique number for each")
-        Console_WriteLineInColour("       if neither -c or -o options are used, the -d option will be assumed")
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour(" -f    by default future dated certificates are excluded")
-        Console_WriteLineInColour("       if -f is used, then future dated certificates will be included")
-        Console_WriteLineInColour("       note: expired certificates are always excluded")
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour(" -n n  in many cases a host will have multiple certificates")
-        Console_WriteLineInColour("       -n indicates a specific certificate should be used for code generation, the second n specifies which one")
-        Console_WriteLineInColour("       for example, -n 3")
-        Console_WriteLineInColour("       indicates only the 3rd certificate should be used for code generation")
-        Console_WriteLineInColour("       if not used, code for all certificates will be generation")
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour(" -g x  used to specifying the language in which the code will be generated")
-        Console_WriteLineInColour("       supported languages are: c++, python, and vb.net")
-        Console_WriteLineInColour("       for example: -g vb.net")
-        Console_WriteLineInColour("       Additionally, c++ may be followed by the option progmem")
-        Console_WriteLineInColour("       if c++ is followed by progmem the generated code will store the certificate in program memory")
-        Console_WriteLineInColour("       (flash memory) rather than in RAM (SRAM)")
-        Console_WriteLineInColour("       for example: -g c++ progmem")
-        Console_WriteLineInColour("       if not used, the c++ will be assumed")
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour(" -v x  the variable name to be used in the output file")
-        Console_WriteLineInColour("       for example: -v server_root_cert")
-        Console_WriteLineInColour("       if not used, a variable name based on the host name / IP address will be generated")
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour(" -c    the generated code will be copied to the clipboard")
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour(" -w x  the generated code will be written to the specified (path and) file name")
-        Console_WriteLineInColour("       for example, -w c:\temp\certificate.h")
-        Console_WriteLineInColour("       the output path name is optional, if omitted the output file will be written to the current working directory")
-        Console_WriteLineInColour("       for example, -w certificate.h")
-        Console_WriteLineInColour("       if the path is specified but does not exist, it will be created")
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour(" -o    if the -w option is used and the specified file already exists")
-        Console_WriteLineInColour("       the user will be prompted to overwrite the file unless the -o options is used")
-        Console_WriteLineInColour("       in which case the existing file will be automatically overwritten")
-        Console_WriteLineInColour("       for example, -w c:\temp\certificate.h -o")
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour(" Certifiable used with no arguments, or with '?' displays this help")
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour("Final notes on usage:")
-        Console_WriteLineInColour(" the -d option does not generate code, rather simply displays available information")
-        Console_WriteLineInColour(" code will only be generated if the -c or -w options are used")
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour("Some common examples:")
-        Console_WriteLineInColour(" certifiable ?")
-        Console_WriteLineInColour(" certifiable www.google.com")
-        Console_WriteLineInColour(" certifiable 142.251.41.14 -d")
-        Console_WriteLineInColour(" certifiable github.com -d")
-        Console_WriteLineInColour(" certifiable github.com -c")
-        Console_WriteLineInColour(" certifiable github.com -n 2 -g c++ progmem -c")
-        Console_WriteLineInColour(" certifiable github.com -n 2 -g c++ -v github_cert -c")
-        Console_WriteLineInColour(" certifiable github.com -n 2 -g python -c")
-        Console_WriteLineInColour(" certifiable github.com -n 2 -g vb.net -w certificate.h")
-        Console_WriteLineInColour(" certifiable github.com -w certificate.h -o")
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour("Certifiable v" & versionNumber, ConsoleColor.Yellow)
-        Console_WriteLineInColour("Copyright © 2025, Rob Latour", ConsoleColor.Yellow, True)
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour("Certifiable is open source", ConsoleColor.Cyan)
-        Console_WriteLineInColour("https://github.com/roblatour/certifiable", ConsoleColor.Cyan)
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour("Certifiable is licensed under the MIT License", ConsoleColor.Cyan)
-        Console_WriteLineInColour("https://github.com/roblatour/setvol/blob/main/LICENSE", ConsoleColor.Cyan)
-        Console_WriteLineInColour(" ")
-        Console_WriteLineInColour("Certifiable makes use of TextCopy which is licensed under the MIT License", ConsoleColor.Cyan)
-        Console_WriteLineInColour("https://github.com/CopyText/TextCopy", ConsoleColor.Cyan)
-        Console_WriteLineInColour(" ")
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour("Certifiable v" & GetVersionNumber() & " Help", ConsoleColor.White)
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour("Given a host name or IP address, and some additional information as outlined below,")
+        ConsoleWriteLineInColour("Certifiable will generate the code for assigning a variable a SSL certificate PEM")
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour("Usage:")
+        ConsoleWriteLineInColour("certifiable [ host (-p n) (-d) (-n n) (-g x) (-v x) (-c) (-w) (-o) (-f) ] | [ ] | [ ? ]")
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour("host   the host name or IP address from which to get the certificate(s)")
+        ConsoleWriteLineInColour("       for example: google.com, www.google.com, 142.251.41.14")
+        ConsoleWriteLineInColour("       a host value is required in all cases other than displaying this help information")
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour("Options:", ConsoleColor.White)
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour(" -p n  the host's port number")
+        ConsoleWriteLineInColour("       for example: -p 8096")
+        ConsoleWriteLineInColour("       if not used a port number of 443 will be assumed")
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour(" -d    display the host's certificate(s) with unique number for each")
+        ConsoleWriteLineInColour("       if neither -c or -o options are used, the -d option will be assumed")
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour(" -f    by default future dated certificates are excluded")
+        ConsoleWriteLineInColour("       if -f is used, then future dated certificates will be included")
+        ConsoleWriteLineInColour("       note: expired certificates are always excluded")
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour(" -n n  in many cases a host will have multiple certificates")
+        ConsoleWriteLineInColour("       -n indicates a specific certificate should be used for code generation, the second n specifies which one")
+        ConsoleWriteLineInColour("       for example, -n 3")
+        ConsoleWriteLineInColour("       indicates only the 3rd certificate should be used for code generation")
+        ConsoleWriteLineInColour("       if not used, code for all certificates will be generation")
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour(" -g x  used to specifying the language in which the code will be generated")
+        ConsoleWriteLineInColour("       supported languages are: c++, python, and vb.net")
+        ConsoleWriteLineInColour("       for example: -g vb.net")
+        ConsoleWriteLineInColour("       Additionally, c++ may be followed by the option progmem")
+        ConsoleWriteLineInColour("       if c++ is followed by progmem the generated code will store the certificate in program memory")
+        ConsoleWriteLineInColour("       (flash memory) rather than in RAM (SRAM)")
+        ConsoleWriteLineInColour("       for example: -g c++ progmem")
+        ConsoleWriteLineInColour("       if not used, the c++ will be assumed")
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour(" -v x  the variable name to be used in the output file")
+        ConsoleWriteLineInColour("       for example: -v server_root_cert")
+        ConsoleWriteLineInColour("       if not used, a variable name based on the host name / IP address will be generated")
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour(" -c    the generated code will be copied to the clipboard")
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour(" -w x  the generated code will be written to the specified (path and) file name")
+        ConsoleWriteLineInColour("       for example, -w c:\temp\certificate.h")
+        ConsoleWriteLineInColour("       the output path name is optional, if omitted the output file will be written to the current working directory")
+        ConsoleWriteLineInColour("       for example, -w certificate.h")
+        ConsoleWriteLineInColour("       if the path is specified but does not exist, it will be created")
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour(" -o    if the -w option is used and the specified file already exists")
+        ConsoleWriteLineInColour("       the user will be prompted to overwrite the file unless the -o options is used")
+        ConsoleWriteLineInColour("       in which case the existing file will be automatically overwritten")
+        ConsoleWriteLineInColour("       for example, -w c:\temp\certificate.h -o")
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour(" Certifiable used with no arguments, or with '?' displays this help")
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour("Final notes on usage:")
+        ConsoleWriteLineInColour(" the -d option does not generate code, rather simply displays available information")
+        ConsoleWriteLineInColour(" code will only be generated if the -c or -w options are used")
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour("Some common examples:")
+        ConsoleWriteLineInColour(" certifiable ?")
+        ConsoleWriteLineInColour(" certifiable www.google.com")
+        ConsoleWriteLineInColour(" certifiable 142.251.41.14 -d")
+        ConsoleWriteLineInColour(" certifiable github.com -d")
+        ConsoleWriteLineInColour(" certifiable github.com -c")
+        ConsoleWriteLineInColour(" certifiable github.com -n 2 -g c++ progmem -c")
+        ConsoleWriteLineInColour(" certifiable github.com -n 2 -g c++ -v github_cert -c")
+        ConsoleWriteLineInColour(" certifiable github.com -n 2 -g python -c")
+        ConsoleWriteLineInColour(" certifiable github.com -n 2 -g vb.net -w certificate.h")
+        ConsoleWriteLineInColour(" certifiable github.com -w certificate.h -o")
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour("Certifiable v" & versionNumber, ConsoleColor.Yellow)
+        ConsoleWriteLineInColour("Copyright Â© 2025, Rob Latour", ConsoleColor.Yellow, True)
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour("Certifiable is open source", ConsoleColor.Cyan)
+        ConsoleWriteLineInColour("https://github.com/roblatour/certifiable", ConsoleColor.Cyan)
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour("Certifiable is licensed under the MIT License", ConsoleColor.Cyan)
+        ConsoleWriteLineInColour("https://github.com/roblatour/setvol/blob/main/LICENSE", ConsoleColor.Cyan)
+        ConsoleWriteLineInColour(" ")
+        ConsoleWriteLineInColour("Certifiable makes use of TextCopy which is licensed under the MIT License", ConsoleColor.Cyan)
+        ConsoleWriteLineInColour("https://github.com/CopyText/TextCopy", ConsoleColor.Cyan)
+        ConsoleWriteLineInColour(" ")
 
-        Console.ForegroundColor = StartingColour
+        Console.ForegroundColor = startingColour
 
     End Sub
 
@@ -1042,7 +1042,7 @@ Module Program
 
                 If (ValidateCertNum()) Then
 
-                    Dim OKToGenerate As Boolean = (iCopyToClipboard OrElse iWriteToFile)
+                    Dim oKToGenerate As Boolean = (iCopyToClipboard OrElse iWriteToFile)
 
                     If iDisplay Then DisplayCertificates()
 
@@ -1050,8 +1050,8 @@ Module Program
 
                         If (gCurrentCertificates = 0) AndAlso (gFutureCertificates = 0) Then
 
-                            Console_WriteLineInColour("No current or future certificates were found for " & iHost & "on port " & iPort)
-                            OKToGenerate = False
+                            ConsoleWriteLineInColour("No current or future certificates were found for " & iHost & "on port " & iPort)
+                            oKToGenerate = False
 
                         End If
 
@@ -1059,8 +1059,8 @@ Module Program
 
                         If (gCurrentCertificates = 0) Then
 
-                            Console_WriteLineInColour("No current certificates were found for " & iHost & "on port " & iPort)
-                            OKToGenerate = False
+                            ConsoleWriteLineInColour("No current certificates were found for " & iHost & "on port " & iPort)
+                            oKToGenerate = False
 
                         End If
 
@@ -1069,15 +1069,15 @@ Module Program
                     If iFuture Then
                     Else
                         If gFutureCertificates = 1 Then
-                            Console_WriteLineInColour(" ")
-                            Console_WriteLineInColour("Note: there is one future dated certificate, to see it use the -future option")
+                            ConsoleWriteLineInColour(" ")
+                            ConsoleWriteLineInColour("Note: there is one future dated certificate, to see it use the -future option")
                         ElseIf gFutureCertificates > 1 Then
-                            Console_WriteLineInColour(" ")
-                            Console_WriteLineInColour("Note: there are " & gFutureCertificates & " future dated certificates, to see them use the -future option")
+                            ConsoleWriteLineInColour(" ")
+                            ConsoleWriteLineInColour("Note: there are " & gFutureCertificates & " future dated certificates, to see them use the -future option")
                         End If
                     End If
 
-                    If OKToGenerate Then
+                    If oKToGenerate Then
                         Generate()
                     End If
 
