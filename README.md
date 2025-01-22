@@ -27,7 +27,8 @@ certifiable api.pushbullet.com -n 2 -c
 ```
 the following response is returned:
 
-C++ certificate code for api.pushbullet.com:443 copied to the clipboard
+<!-- { color: green } -->
+`C++ certificate code for api.pushbullet.com:443 copied to the clipboard`
 
 and here is what was copied to the clipboard
 ```cpp
