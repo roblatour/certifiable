@@ -30,7 +30,7 @@ the following response is returned:
 <!-- { color: green } -->
 `C++ certificate code for api.pushbullet.com:443 copied to the clipboard`
 
-and here is what was copied to the clipboard
+and here is what will be copied to the clipboard
 ```cpp
 // The following code is for use with api.pushbullet.com:443
 // 
