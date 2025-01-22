@@ -20,7 +20,7 @@ Certifiable does not need to be installed, rather download file (above) and run 
 
 ## Example output
 
-From the command:
+From the Windows command line:
 
 ```cpp
 certifiable api.pushbullet.com -n 2 -c
